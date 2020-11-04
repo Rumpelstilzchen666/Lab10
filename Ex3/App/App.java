@@ -12,7 +12,7 @@ public abstract class App extends JFrame {
     protected final CreateDocument createDoc;
     protected Document doc;
 
-    protected App(String filePath, CreateDocument createDoc) { //Общий
+    protected App(String filePath, CreateDocument createDoc) {
         setSize(500, 500);
         setLayout(new BorderLayout());
         this.createDoc = createDoc;
@@ -40,6 +40,10 @@ public abstract class App extends JFrame {
         menuFSaveAs.addActionListener(e -> actions[0] = 4);
     }
 
+    protected abstract void addItemsToMenuFile(JMenu menuFile);
+
+    protected abstract void addMenuToMenuBar(JMenuBar menuBar);
+
     protected void work() {
         while(true) {
             try {
@@ -65,13 +69,20 @@ public abstract class App extends JFrame {
         }
     }
 
+    protected abstract void setContent();
+
+    protected void openFile() {
+        Document newDoc = createDoc.createOpen();
+        if(newDoc != null) {
+            doc = newDoc;
+            setTitle(doc.getShortName());
+            setContent();
+        }
+    }
+
     protected abstract void extraActions();
 
-    protected abstract void addItemsToMenuFile(JMenu menuFile);
-
-    protected abstract void addMenuToMenuBar(JMenuBar menuBar);
-
-    protected boolean safeSaveChanges() { //Общий
+    protected boolean safeSaveChanges() {
         if(isChanged()) {
             UIManager.put("OptionPane.yesButtonText", "Сохранить");
             UIManager.put("OptionPane.noButtonText", "Не сохранять");
@@ -88,7 +99,7 @@ public abstract class App extends JFrame {
 
     protected abstract boolean isChanged();
 
-    protected boolean saveContent(boolean createNewFile) { //Общий
+    protected boolean saveContent(boolean createNewFile) {
         String fileName = doc.getPath();
         if(createNewFile || fileName == null)
             fileName = createNewFile();
@@ -99,9 +110,7 @@ public abstract class App extends JFrame {
         return true;
     }
 
-    protected abstract void saveContentTo(String fileName);
-
-    protected String createNewFile() { //Общий
+    protected String createNewFile() {
         FileNameFrame fileNameFrame = new FileNameFrame("нового");
         String fileName = fileNameFrame.getFileName();
         File newFile, newFileParent;
@@ -145,14 +154,5 @@ public abstract class App extends JFrame {
         return fileName.equals("☺☻♥♦♣♠") ? null : fileName;
     }
 
-    protected void openFile() { //Общий
-        Document newDoc = createDoc.createOpen();
-        if(newDoc != null) {
-            doc = newDoc;
-            setTitle(doc.getShortName());
-            setContent();
-        }
-    }
-
-    protected abstract void setContent();
+    protected abstract void saveContentTo(String fileName);
 }

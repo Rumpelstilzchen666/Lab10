@@ -13,7 +13,7 @@ public class TextApp extends App {
         super(filePath, new CreateTextDocument());
         textArea = new TextArea("", 10, 10,
                 TextArea.SCROLLBARS_VERTICAL_ONLY);
-        textArea.setFont(new Font("MONOSPACED", Font.BOLD, 14));
+        textArea.setFont(new Font("SANS_SERIF", Font.PLAIN, 14));
         add(textArea, BorderLayout.CENTER);
         setContent();
         setVisible(true);

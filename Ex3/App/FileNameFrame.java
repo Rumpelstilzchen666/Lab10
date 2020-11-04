@@ -13,8 +13,8 @@ public class FileNameFrame extends JFrame {
         setSize(450, 120);
         setLayout(new GridLayout(2, 1));
         JPanel jtfPnl = new JPanel();
-        fileNameJTF = new JTextField(50);
-        fileNameJTF.setFont(new Font("MONOSPACED", Font.BOLD, 12));
+        fileNameJTF = new JTextField(35);
+        fileNameJTF.setFont(new Font("SANS_SERIF", Font.BOLD, 12));
         fileNameJTF.setText(new File("").getAbsolutePath());
         jtfPnl.add(fileNameJTF);
         add(jtfPnl);
